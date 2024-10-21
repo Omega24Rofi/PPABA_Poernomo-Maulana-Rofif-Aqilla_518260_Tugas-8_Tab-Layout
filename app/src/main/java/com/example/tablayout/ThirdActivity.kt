@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class ThirdActivity : AppCompatActivity() {
@@ -30,14 +29,15 @@ class ThirdActivity : AppCompatActivity() {
         val phoneTextView = findViewById<TextView>(R.id.phoneTextView)
 
         // Set text to views
-        usernameTextView.text = "$username"
-        emailTextView.text = "$email"
-        phoneTextView.text = "$phone"
+        usernameTextView.text = "Username: $username"
+        emailTextView.text = "Email: $email"
+        phoneTextView.text = "Phone: $phone"
 
         val logoutButton = findViewById<Button>(R.id.logoutButton)
         logoutButton.setOnClickListener {
             val intent = Intent(this, SecondActivity::class.java)
             startActivity(intent)
+            finish() // Optionally finish ThirdActivity if you want to remove it from the back stack
         }
     }
 }

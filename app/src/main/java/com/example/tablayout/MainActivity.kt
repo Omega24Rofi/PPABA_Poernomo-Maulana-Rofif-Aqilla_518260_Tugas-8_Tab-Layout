@@ -1,35 +1,40 @@
-// MainActivity.kt
 package com.example.tablayout
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
+import com.example.tablayout.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewPager: ViewPager2
-    private lateinit var tabLayout: TabLayout
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var viewPagerAdapter: ViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        viewPager = findViewById(R.id.viewPager)
-        tabLayout = findViewById(R.id.tabLayout)
+        // Initialize ViewPagerAdapter
+        viewPagerAdapter = ViewPagerAdapter(this)
+        binding.viewPager.adapter = viewPagerAdapter
 
-        val adapter = ViewPagerAdapter(this)
-        viewPager.adapter = adapter
-
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+        // Setup TabLayout with ViewPager2 using TabLayoutMediator
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> "Login"
                 1 -> "Register"
                 else -> null
             }
         }.attach()
+    }
 
-        
+    fun updateLoginFragmentData(email: String, password: String) {
+        // Update email and password for LoginFragment
+        viewPagerAdapter.updateLoginFragmentData(email, password)
+    }
+
+    fun switchToLoginTab() {
+        binding.viewPager.currentItem = 0 // Switch to Login tab
     }
 }
